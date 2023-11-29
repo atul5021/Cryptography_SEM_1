@@ -1,45 +1,47 @@
-#Substitution Cipher
+#Substitutio Cipher
 
-def substitution_encrypt(plaintext, key):
-    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    ciphertext = ""
-    for char in plaintext:
-        if char.upper() in alphabet:
-            if char.isupper():
-                new_char = key[alphabet.index(char)]
+def encrypt_word(plain_text, key):
+    cipher_text = ""
+
+    for word in plain_text:
+        for i in word:
+            if i.isupper():
+                val = ord(i) - 65
+                enc_word = chr(65 + (val + key) % 26)
             else:
-                new_char = key[alphabet.index(char.upper())].lower()
-            ciphertext += new_char
-        else:
-            ciphertext += char
-    return ciphertext
+                val = ord(i) - 97
+                enc_word = chr(97 + (val + key) % 26)
 
-def substitution_decrypt(ciphertext, key):
-    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    plaintext = ""
-    for char in ciphertext:
-        if char.upper() in key:
-            if char.isupper():
-                new_char = alphabet[key.index(char)]
+            cipher_text += enc_word
+
+    print('Encrypted Text:', cipher_text)
+    return cipher_text
+
+def decrypt_word(cipher_text, key):
+    plain_text = ""
+
+    for word in cipher_text:
+        for i in word:
+            if i.isupper():
+                val = ord(i) - 65
+                enc_word = chr(65 + (val - key) % 26)
             else:
-                new_char = alphabet[key.index(char.upper())].lower()
-            plaintext += new_char
-        else:
-            plaintext += char
-    return plaintext
+                val = ord(i) - 97
+                enc_word = chr(97 + (val - key) % 26)
 
-# Example usage
-key = "QWERTYUIOPASDFGHJKLZXCVBNM"
-plaintext = "HELLO WORLD"
-ciphertext = substitution_encrypt(plaintext, key)
-decrypted_text = substitution_decrypt(ciphertext, key)
+            plain_text += enc_word
 
-print(f"Plaintext: {plaintext}")
-print(f"Ciphertext: {ciphertext}")
-print(f"Decrypted Text: {decrypted_text}")
-print()
+    print("Decrypted text:", plain_text)
 
-print("----------------------------------------------------------------------------------------------------------------------")
+plain_text = input("Enter the plain text to be Encrypted: ").split()
+key = int(input("Enter the key for shift cipher: "))
+
+cipher_text = encrypt_word(plain_text, key)
+decrypt_word(cipher_text, key)
+
+
+
+############################################  END ############################################
 #Vigenère Cipher
 
 def vigenere_encrypt(plaintext, key):
